@@ -1,169 +1,94 @@
 # Brain Tumor MRI Classification
 
-This repository contains a corrected, reproducible ResNet50 pipeline for the four-class brain tumor MRI task.
+An educational four-class MRI image-classification prototype using ResNet50 transfer learning, held-out evaluation, optional Grad-CAM visualization, and a small Streamlit demo.
 
-## Installation
+> **Medical disclaimer:** This project is not a medical device or diagnostic tool. It has not been clinically validated and must not be used for screening, diagnosis, treatment, triage, or patient-care decisions. Model scores and Grad-CAM visualizations are experimental only.
 
-Use a Python 3.12+ environment and install the dependencies:
+## For Judges – How to Run
+
+### Option 1: Run the Colab notebook
+
+Open [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb) in Google Colab, then select **Runtime → Restart session and run all**. The notebook installs its dependencies, downloads the dataset with KaggleHub, displays class counts, evaluates a majority-class baseline, and loads the repository checkpoint when available. If no checkpoint is present in the Colab runtime, it trains a short ResNet50 transfer-learning fallback. It then reports test metrics, plots confusion matrices, shows up to eight misclassified examples with a best-effort Grad-CAM, and saves `models/brain_tumor_model.keras`.
+
+The notebook evaluates the Kaggle-provided `Testing` folder. This dataset has no patient identifiers; its image split does not establish patient-independent generalization.
+
+### Option 2: Run the Streamlit app locally
+
+From the repository root, install dependencies and start Streamlit:
 
 ```bash
 python -m pip install -r requirements.txt
+python -m streamlit run app/app.py
 ```
 
-If using the bundled Python in this workspace:
+The app defaults to the included checkpoint at `results/models/brain_tumor_model.keras`. If you use another compatible four-class Keras checkpoint, enter its path in the app. The app always displays the medical disclaimer; Grad-CAM is optional and may be unavailable for incompatible model architectures.
 
-```bash
-/usr/local/python/3.13.8/bin/python -m pip install -r requirements.txt
-```
+### Dataset credit
 
-## Dataset structure
+The notebook downloads [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset) by Masoud Nickparvar from Kaggle using `kagglehub`. The project records dataset version 2 and its CC BY 4.0 attribution. Do not redistribute MRI images without following the dataset license and source terms.
 
-The dataset must be organized as follows:
+## Results in this repository
+
+The existing validation-selected checkpoint reached **87.1% accuracy** and **0.868 macro F1** on the provided 1,600-image test split (400 images per class). A constant majority-class prediction scores **25.0%** on this balanced test set. Glioma recall was 73.0%, and meningioma recall was 77.8%.
+
+These are dataset-specific experimental measurements from a **partial training run**; the configured full training schedule was not completed. The dataset audit also flagged 2,740 cross-split perceptual near-match candidates (not confirmed duplicates), and patient identifiers were unavailable. Do not interpret these results as clinical performance. See [the evaluation report](./results/reports/REAL_EVALUATION_REPORT.md), [training report](./results/reports/REAL_TRAINING_REPORT.md), and [one-page write-up](./docs/WRITEUP.md).
+
+## Reproduce training locally
+
+Download or otherwise provide the dataset with this layout:
 
 ```text
 brain_tumor_data/
   Training/
-    glioma/
-    meningioma/
-    notumor/
-    pituitary/
+    glioma/ meningioma/ notumor/ pituitary/
   Testing/
-    glioma/
-    meningioma/
-    notumor/
-    pituitary/
+    glioma/ meningioma/ notumor/ pituitary/
 ```
 
-The expected class names are:
-
-- `glioma`
-- `meningioma`
-- `notumor`
-- `pituitary`
-
-## Downloading the real dataset
-
-The verified initial experiment uses Kaggle dataset
-[`masoudnickparvar/brain-tumor-mri-dataset`](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset),
-version 2 (CC BY 4.0). KaggleHub downloads to its cache and prints the resulting
-path; it does not place data in the repository automatically.
-
-```python
-import kagglehub
-
-path = kagglehub.dataset_download("masoudnickparvar/brain-tumor-mri-dataset")
-print("Path to dataset files:", path)
-```
-
-The downloaded version currently contains 7,200 images. Record the version and
-license when reproducing results. Do not commit the downloaded MRI files.
-
-Audit and prepare exact-duplicate-safe train/validation splits while preserving
-the upstream Testing files:
+Audit it and prepare exact-duplicate-safe train/validation splits while preserving the original test set:
 
 ```bash
-python src/real_dataset_audit.py --data-dir /path/printed/by/kagglehub --output-dir results
+python src/real_dataset_audit.py --data-dir brain_tumor_data --output-dir results
 python src/prepare_real_splits.py \
-  --data-dir /path/printed/by/kagglehub \
-  --output-dir /tmp/brain-tumor-mri-prepared \
-  --report-dir results/reports --seed 42
+  --data-dir brain_tumor_data \
+  --output-dir results/prepared_splits \
+  --report-dir results/reports \
+  --seed 42
 ```
 
-After auditing and preparing splits, the experiment runner trains, selects a
-checkpoint using validation data only, evaluates the untouched test split once,
-and creates Grad-CAM examples:
+Train and evaluate the ResNet50 experiment:
 
 ```bash
 python src/run_real_experiment.py \
-  --data-dir /path/to/brain-tumor-mri-dataset/versions/2 \
+  --data-dir brain_tumor_data \
   --prepared-dir results/prepared_splits \
   --output-dir results \
-  --epochs 8 --fine-tune-epochs 6 --batch-size 32 --img-size 224 --seed 42
+  --epochs 8 \
+  --fine-tune-epochs 6 \
+  --batch-size 32 \
+  --img-size 224 \
+  --seed 42
 ```
 
-For resume behavior and actual dataset findings from the current workspace, see
-`results/reports/REAL_TRAINING_REPORT.md` and
-`results/reports/REAL_DATASET_AUDIT.md`. The saved current result is a partial
-CPU training run, not the full schedule shown above.
-
-## Environment setup
-
-The project uses TensorFlow/Keras with ResNet50 and a clean ImageNet preprocessing pipeline. The model is trained with a transfer-learning stage followed by a controlled fine-tuning stage.
-
-## Training commands
+To run single-image inference or create a Grad-CAM visualization:
 
 ```bash
-/usr/local/python/3.13.8/bin/python src/brain_tumor_pipeline.py --data-dir brain_tumor_data --output-dir artifacts --img-size 224 --batch-size 32 --validation-split 0.15
+python src/predict.py \
+  --model results/models/brain_tumor_model.keras \
+  --image path/to/image.png \
+  --gradcam-dir results/gradcam
 ```
 
-## Fine-tuning commands
+## Project files
 
-The pipeline includes a safe two-stage workflow. The transfer-learning stage is saved first, then the final layers are selectively unfrozen.
+- `Hackathon_Colab.ipynb` — standalone Colab data, baseline, training, evaluation, and error-inspection workflow
+- `src/` — reusable training, evaluation, prediction, dataset-audit, and Grad-CAM code
+- `app/app.py` — Streamlit image upload demo
+- `results/models/` — saved Keras checkpoints
+- `results/plots/` and `results/reports/` — metrics, figures, and experiment documentation
 
-```bash
-/usr/local/python/3.13.8/bin/python src/brain_tumor_pipeline.py --data-dir brain_tumor_data --output-dir artifacts --img-size 224 --batch-size 32 --validation-split 0.15
-```
-
-This is the same command used for the main training workflow; fine-tuning is internal to the script when the first stage is stable.
-
-## Evaluation commands
+Run the test suite with:
 
 ```bash
-/usr/local/python/3.13.8/bin/python src/brain_tumor_pipeline.py --data-dir brain_tumor_data --output-dir results
-```
-
-Evaluation outputs are saved under:
-
-- `results/plots/`
-- `results/reports/`
-
-## Prediction commands
-
-```bash
-/usr/local/python/3.13.8/bin/python src/predict.py --model artifacts/brain_tumor_model.keras --image path/to/image.png --gradcam-dir results/gradcam
-```
-
-The output includes the predicted class, per-class probability scores, confidence, and optional Grad-CAM artifacts. Predictions are experimental and not medical diagnoses.
-
-## Grad-CAM instructions
-
-```bash
-/usr/local/python/3.13.8/bin/python src/gradcam.py --model artifacts/brain_tumor_model.keras --image path/to/image.png --output-dir results/gradcam
-```
-
-## Streamlit launch command
-
-```bash
-/usr/local/python/3.13.8/bin/python -m streamlit run app/app.py
-```
-
-## Results directory explanation
-
-- `results/plots/`: confusion matrices, training history, ROC, and PR curves
-- `results/reports/`: JSON summary and classification report
-- `artifacts/`: saved models and training checkpoints
-
-## Limitations
-
-- This repository does not include the original Kaggle dataset files in the workspace.
-- Real test accuracy and generalization can only be claimed with the actual MRI dataset and patient-aware splitting.
-- GPU availability and dataset size may affect training runtime and convergence.
-- Grad-CAM is interpretability support, not clinical proof.
-
-## Medical disclaimer
-
-This project is for research and educational use only. It is not a medical diagnostic system and should not be used to make clinical decisions.
-
-## Validation
-
-Run the project tests with:
-
-```bash
-/usr/local/python/3.13.8/bin/python -m pytest -q
-```
-
-Run CLI help with:
-
-```bash
-/usr/local/python/3.13.8/bin/python src/brain_tumor_pipeline.py --help
+python -m pytest -q
 ```

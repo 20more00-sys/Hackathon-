@@ -1,10 +1,11 @@
+# Runtime dependencies
 tensorflow-cpu>=2.16.2
 numpy>=1.26
-pandas>=2.2
 matplotlib>=3.8
 pillow>=10.0
 scikit-learn>=1.4
-seaborn>=0.13
 streamlit>=1.35
-pytest>=8.0
 kagglehub>=0.3
+
+# Test dependency
+pytest>=8.0
