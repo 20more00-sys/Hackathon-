@@ -69,8 +69,10 @@ def _main() -> None:
     if not model_path.is_file():
         st.error(f"Model file not found: {model_path}")
         st.info(
-            "The repository checkpoint is `results/models/brain_tumor_model.keras`. "
-            "Run training or enter the path to a compatible four-class Keras model."
+            "Model weights are not included in this repository. Run "
+            "`Hackathon_Colab.ipynb` or train a model with the project pipeline, "
+            "then place the resulting `.keras` file at "
+            "`results/models/brain_tumor_model.keras` and reload this page."
         )
         st.stop()
 

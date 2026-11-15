@@ -1,2 +1,2 @@
-results/models/
+results/models/*.keras
 results/prepared_splits/

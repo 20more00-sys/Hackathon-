@@ -6,22 +6,25 @@ An educational four-class MRI image-classification prototype using ResNet50 tran
 
 ## For Judges – How to Run
 
-### Option 1: Run the Colab notebook
+**Fastest demo:** Open [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb) in Colab and select **Runtime → Run all**. It installs dependencies, downloads the dataset, compares a majority baseline with ResNet50, evaluates the provided test split, and saves `results/models/brain_tumor_model.keras`.
 
-Open [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb) in Google Colab, then select **Runtime → Restart session and run all**. The notebook installs its dependencies, downloads the dataset with KaggleHub, displays class counts, evaluates a majority-class baseline, and loads the repository checkpoint when available. If no checkpoint is present in the Colab runtime, it trains a short ResNet50 transfer-learning fallback. It then reports test metrics, plots confusion matrices, shows up to eight misclassified examples with a best-effort Grad-CAM, and saves `models/brain_tumor_model.keras`.
-
-The notebook evaluates the Kaggle-provided `Testing` folder. This dataset has no patient identifiers; its image split does not establish patient-independent generalization.
-
-### Option 2: Run the Streamlit app locally
-
-From the repository root, install dependencies and start Streamlit:
+To try the upload interface locally:
 
 ```bash
 python -m pip install -r requirements.txt
 python -m streamlit run app/app.py
 ```
 
-The app defaults to the included checkpoint at `results/models/brain_tumor_model.keras`. If you use another compatible four-class Keras checkpoint, enter its path in the app. The app always displays the medical disclaimer; Grad-CAM is optional and may be unavailable for incompatible model architectures.
+The notebook trains a short fallback if project weights are not present in Colab. After downloading/saving the model into `results/models/` in your local checkout, the app uses it by default. See **Model weights** below.
+
+The notebook evaluates the Kaggle-provided `Testing` folder; patient identifiers are unavailable, so patient-independent generalization is not established.
+
+## Model weights
+
+The trained `.keras` file is not included because it is too large for this repository. Judges can either:
+
+1. Run [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb), which trains a short fallback model and saves it to `results/models/brain_tumor_model.keras`. Download/copy it into that path in the local checkout for the Streamlit app.
+2. Review the existing evaluation reports and plots under [`results/`](./results/); the app requires weights, but the reports do not.
 
 ### Dataset credit
 
