@@ -1,0 +1,13 @@
+{
+  "dataset_source": "https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset",
+  "dataset_version": 2,
+  "seed": 42,
+  "img_size": 224,
+  "batch_size": 32,
+  "epochs": 0,
+  "fine_tune_epochs": 1,
+  "validation_method": "StratifiedGroupKFold(n_splits=7, first fold, shuffle=True)",
+  "test_policy": "Untouched original Testing split; used only for final evaluation and Grad-CAM examples.",
+  "gpu_devices": [],
+  "resume_transfer_checkpoint": "results/models/transfer_best.keras"
+}

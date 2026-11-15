@@ -1,0 +1,212 @@
+{
+  "status": "evaluation_completed_training_partial",
+  "dataset": {
+    "name": "Brain Tumor MRI Dataset",
+    "owner": "Masoud Nickparvar",
+    "kaggle_identifier": "masoudnickparvar/brain-tumor-mri-dataset",
+    "kaggle_dataset_id": "1608934",
+    "version": 2,
+    "license": "Attribution 4.0 International (CC BY 4.0)",
+    "url": "https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset",
+    "valid_image_count": 7200,
+    "training_distribution_original": {
+      "glioma": 1400,
+      "meningioma": 1400,
+      "notumor": 1400,
+      "pituitary": 1400
+    },
+    "testing_distribution_original": {
+      "glioma": 400,
+      "meningioma": 400,
+      "notumor": 400,
+      "pituitary": 400
+    }
+  },
+  "split_distribution": {
+    "Training": {
+      "glioma": 1197,
+      "meningioma": 1112,
+      "notumor": 1192,
+      "pituitary": 1200
+    },
+    "Validation": {
+      "glioma": 199,
+      "meningioma": 186,
+      "notumor": 199,
+      "pituitary": 200
+    },
+    "Testing": {
+      "glioma": 400,
+      "meningioma": 400,
+      "notumor": 400,
+      "pituitary": 400
+    }
+  },
+  "split_total": {
+    "Training": 4701,
+    "Validation": 784,
+    "Testing": 1600
+  },
+  "excluded_train_exact_test_duplicates": 115,
+  "cross_split_exact_duplicate_group_count": 0,
+  "cross_split_near_duplicate_pair_count": 2740,
+  "patient_level_separation_claimed": false,
+  "configuration": {
+    "dataset_source": "https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset",
+    "dataset_version": 2,
+    "seed": 42,
+    "img_size": 224,
+    "batch_size": 32,
+    "epochs": 0,
+    "fine_tune_epochs": 1,
+    "validation_method": "StratifiedGroupKFold(n_splits=7, first fold, shuffle=True)",
+    "test_policy": "Untouched original Testing split; used only for final evaluation and Grad-CAM examples.",
+    "gpu_devices": [],
+    "resume_transfer_checkpoint": "results/models/transfer_best.keras"
+  },
+  "training": {
+    "workflow_completed": true,
+    "full_configured_training_completed": false,
+    "real_training_executed": true,
+    "duration_seconds": 629.719561545,
+    "strategy": "resumed_interrupted_run_from_best_transfer_checkpoint",
+    "selected_stage": "transfer_learning",
+    "checkpoint": "/workspaces/Hackathon-/results/models/brain_tumor_model.keras",
+    "transfer_learning_epochs": null,
+    "interrupted_transfer_checkpoint_resume": true,
+    "original_transfer_epoch_history_available": false,
+    "fine_tuning_epochs": 1,
+    "best_transfer_validation_loss": 0.1259673535823822,
+    "best_fine_tuning_validation_loss": 0.16171647608280182
+  },
+  "evaluation": {
+    "accuracy": 0.87125,
+    "precision": {
+      "glioma": 0.9329073482428115,
+      "meningioma": 0.8077922077922078,
+      "notumor": 0.8364779874213837,
+      "pituitary": 0.9223529411764706
+    },
+    "recall": {
+      "glioma": 0.73,
+      "meningioma": 0.7775,
+      "notumor": 0.9975,
+      "pituitary": 0.98
+    },
+    "f1_score": {
+      "glioma": 0.8190743338008415,
+      "meningioma": 0.7923566878980892,
+      "notumor": 0.9099201824401368,
+      "pituitary": 0.9503030303030303
+    },
+    "macro_f1": 0.8679135586105244,
+    "weighted_f1": 0.8679135586105243,
+    "balanced_accuracy": 0.87125,
+    "roc_auc_macro": 0.9721260416666666,
+    "per_class_roc_auc": {
+      "glioma": 0.94765625,
+      "meningioma": 0.9482083333333333,
+      "notumor": 0.9949437499999999,
+      "pituitary": 0.9976958333333333
+    },
+    "pr_auc_macro": 0.936899451621834,
+    "per_class_pr_auc": {
+      "glioma": 0.9092467038207279,
+      "meningioma": 0.8618104400057167,
+      "notumor": 0.9830932231160437,
+      "pituitary": 0.9934474395448474
+    },
+    "class_names": [
+      "glioma",
+      "meningioma",
+      "notumor",
+      "pituitary"
+    ],
+    "confusion_matrix": [
+      [
+        292,
+        65,
+        38,
+        5
+      ],
+      [
+        21,
+        311,
+        40,
+        28
+      ],
+      [
+        0,
+        1,
+        399,
+        0
+      ],
+      [
+        0,
+        8,
+        0,
+        392
+      ]
+    ]
+  },
+  "test_images_evaluated": 1600,
+  "gradcam_on_real_test_images": {
+    "glioma": {
+      "predicted_class": "notumor",
+      "confidence": 0.867220938205719,
+      "original_path": "/workspaces/Hackathon-/results/gradcam/glioma/Te-gl_1_original.png",
+      "heatmap_path": "/workspaces/Hackathon-/results/gradcam/glioma/Te-gl_1_heatmap.png",
+      "overlay_path": "/workspaces/Hackathon-/results/gradcam/glioma/Te-gl_1_overlay.png",
+      "probabilities": [
+        0.0685521736741066,
+        0.007805363740772009,
+        0.867220938205719,
+        0.05642154812812805
+      ]
+    },
+    "meningioma": {
+      "predicted_class": "meningioma",
+      "confidence": 0.7586672306060791,
+      "original_path": "/workspaces/Hackathon-/results/gradcam/meningioma/Te-aug-me_1_original.png",
+      "heatmap_path": "/workspaces/Hackathon-/results/gradcam/meningioma/Te-aug-me_1_heatmap.png",
+      "overlay_path": "/workspaces/Hackathon-/results/gradcam/meningioma/Te-aug-me_1_overlay.png",
+      "probabilities": [
+        0.23639756441116333,
+        0.7586672306060791,
+        0.002894981764256954,
+        0.0020401051733642817
+      ]
+    },
+    "notumor": {
+      "predicted_class": "notumor",
+      "confidence": 0.9994763731956482,
+      "original_path": "/workspaces/Hackathon-/results/gradcam/notumor/Te-no_1_original.png",
+      "heatmap_path": "/workspaces/Hackathon-/results/gradcam/notumor/Te-no_1_heatmap.png",
+      "overlay_path": "/workspaces/Hackathon-/results/gradcam/notumor/Te-no_1_overlay.png",
+      "probabilities": [
+        7.872525202401448e-06,
+        0.00048563408199697733,
+        0.9994763731956482,
+        3.0153301850077696e-05
+      ]
+    },
+    "pituitary": {
+      "predicted_class": "pituitary",
+      "confidence": 0.6510738134384155,
+      "original_path": "/workspaces/Hackathon-/results/gradcam/pituitary/Te-pi_1_original.png",
+      "heatmap_path": "/workspaces/Hackathon-/results/gradcam/pituitary/Te-pi_1_heatmap.png",
+      "overlay_path": "/workspaces/Hackathon-/results/gradcam/pituitary/Te-pi_1_overlay.png",
+      "probabilities": [
+        0.00044226637692190707,
+        0.3484286963939667,
+        5.521161074284464e-05,
+        0.6510738134384155
+      ]
+    }
+  },
+  "historical_baseline": {
+    "accuracy": 0.6081,
+    "protocol_equivalence_verified": false,
+    "direct_comparison_made": false
+  }
+}
