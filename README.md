@@ -23,8 +23,7 @@ Grad-CAM visualizations are available for example errors in the notebook and aft
 
 ## Model weights
 
-Download the trained model here: 
-https://drive.google.com/file/d/1GJrwvVoyRnvxhvMrw32OO5NkmJ49TpxD/view?usp=drive_link
+Download the trained model here (Colab-trained, 4 epochs, 85.4% test accuracy):https://drive.google.com/file/d/1GJrwvVoyRnvxhvMrw32OO5NkmJ49TpxD/view?usp=drive_link
 
 ### Dataset credit
 
@@ -39,6 +38,7 @@ These are dataset-specific experimental measurements from a **partial training r
 ## Results note
 - Saved project checkpoint (CPU run, partial training): 87.1% test accuracy.
 - Colab-trained model (4 epochs): 85.4% test accuracy.
+
 These two numbers come from different training runs and should not be mixed.
 
 ## Reproduce training locally
