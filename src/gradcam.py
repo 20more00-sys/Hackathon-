@@ -101,7 +101,7 @@ def generate_gradcam_visualization(
     conf = float(probabilities[predicted_index])
 
     gradcam = GradCAM(model=model, base_model=base_model, last_conv_layer_name="conv5_block3_out")
-    heatmap = gradcam.compute_heatmap(resized, class_index=predicted_index)
+    heatmap = gradcam.compute_heatmap(np.asarray(input_tensor[0]), class_index=predicted_index)   
     overlay = gradcam.overlay_heatmap(image_array, heatmap)
 
     output_dir = Path(output_dir) if output_dir is not None else Path("results") / "gradcam"

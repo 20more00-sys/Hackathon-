@@ -23,10 +23,8 @@ Grad-CAM visualizations are available for example errors in the notebook and aft
 
 ## Model weights
 
-The trained `.keras` file is not included because it is too large for this repository. Judges can either:
-
-1. Run [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb), which trains a short fallback model and saves it to `results/models/brain_tumor_model.keras`. Download/copy it into that path in the local checkout for the Streamlit app.
-2. Review the existing evaluation reports and plots under [`results/`](./results/); the app requires weights, but the reports do not.
+Download the trained model here: 
+https://drive.google.com/file/d/1GJrwvVoyRnvxhvMrw32OO5NkmJ49TpxD/view?usp=drive_link
 
 ### Dataset credit
 
@@ -37,6 +35,11 @@ The notebook downloads [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets
 The existing validation-selected checkpoint reached **87.1% accuracy** and **0.868 macro F1** on the provided 1,600-image test split (400 images per class). A constant majority-class prediction scores **25.0%** on this balanced test set. Glioma recall was 73.0%, and meningioma recall was 77.8%.
 
 These are dataset-specific experimental measurements from a **partial training run**; the configured full training schedule was not completed. The dataset audit also flagged 2,740 cross-split perceptual near-match candidates (not confirmed duplicates), and patient identifiers were unavailable. Do not interpret these results as clinical performance. See [the evaluation report](./results/reports/REAL_EVALUATION_REPORT.md), [training report](./results/reports/REAL_TRAINING_REPORT.md), and [one-page write-up](./docs/WRITEUP.md).
+
+## Results note
+- Saved project checkpoint (CPU run, partial training): 87.1% test accuracy.
+- Colab-trained model (4 epochs): 85.4% test accuracy.
+These two numbers come from different training runs and should not be mixed.
 
 ## Reproduce training locally
 

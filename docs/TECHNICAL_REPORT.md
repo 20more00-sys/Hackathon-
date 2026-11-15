@@ -37,13 +37,16 @@ The current implementation follows a conservative workflow:
 
 ## Evaluation results
 
-The repository provides a reproducible evaluation framework and reports, but no real MRI dataset was available in this environment. Results therefore remain synthetic or in the structure of a reproducible pipeline rather than clinical claims.
+The pipeline was run on the real Kaggle Brain Tumor MRI Dataset (version 2, 7,200 images). On the untouched 1,600-image Testing split, the validation-selected checkpoint reached 87.1% accuracy and 0.868 macro F1 (majority-class baseline: 25.0%). Glioma recall was 73.0% and meningioma recall 77.8%. See `results/reports/REAL_EVALUATION_REPORT.md` for the full metrics and confusion matrix.
+
+These numbers come from a partial training run on CPU: the first run was interrupted, and it was resumed with one fine-tuning epoch instead of the planned six. They are dataset-specific experimental measurements, not clinical evidence.
 
 ## Limitations
 
-- Real model accuracy cannot be claimed without the actual brain-tumor MRI dataset.
-- GPU availability was not guaranteed in this environment, so training behavior may differ from a GPU-enabled workstation.
-- Grad-CAM highlights image regions, but it is not clinical proof of diagnosis.
+- The training schedule was not completed (see `results/reports/REAL_TRAINING_REPORT.md`).
+- No patient identifiers are available, and 2,740 cross-split perceptual near-match candidates remain unreviewed, so patient-independent generalization is not established.
+- Training ran on CPU only; behavior may differ on a GPU workstation.
+- Grad-CAM highlights image regions, but it is not clinical proof of diagnosis. The Grad-CAM code was corrected to use the same preprocessed input as the prediction; the Grad-CAM images already in `results/` were generated before this fix and should be regenerated.
 
 ## Future research directions
 
