@@ -16,22 +16,19 @@ An educational four-class MRI image-classification prototype using ResNet50 tran
    cd Hackathon-
    ```
 
-2. **Download the model** from the link in the [Model weights](#model-weights) section and save it as: results/models/brain_tumor_model.keras
-(The file name and folder must match exactly.)
+2. **Download the model** from the link in the [Model weights](#model-weights) section and save it as `results/models/brain_tumor_model.keras`. The file name and folder must match exactly. In Codespaces, drag the downloaded file into the `results/models` folder in the file explorer.
 
 3. **Install the dependencies:**
-```bash
-In the terminal write:
-python -m pip install -r requirements.txt
-```
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
 4. **Start the app** from the project root folder:
-```bash
-python -m streamlit run app/app.py
-```
+   ```bash
+   python -m streamlit run app/app.py
+   ```
 
-5. **Open it in the browser.** Streamlit prints a local address (usually `http://localhost:8501`).
-- In **GitHub Codespaces**, click **Open in Browser** in the pop-up, or open the **Ports** tab and click the globe icon next to port 8501.
+5. **Open it in the browser.** Streamlit prints a local address (usually `http://localhost:8501`). In **GitHub Codespaces**, click **Open in Browser** in the pop-up, or open the **Ports** tab and click the globe icon next to port 8501.
 
 6. **Try it:** click **Browse files** and upload an MRI image (for example `my_images/image.png` from this repo). The app shows the predicted class, the probability scores, and a Grad-CAM heatmap.
 
@@ -45,7 +42,9 @@ Grad-CAM visualizations are available for example errors in the notebook and aft
 
 ## Model weights
 
-Download the trained model here (Colab-trained, 4 epochs, 85.4% test accuracy):https://drive.google.com/file/d/1GJrwvVoyRnvxhvMrw32OO5NkmJ49TpxD/view?usp=drive_link
+Download the trained model here (Colab-trained, 4 epochs, 85.4% test accuracy):
+
+https://drive.google.com/file/d/1GJrwvVoyRnvxhvMrw32OO5NkmJ49TpxD/view?usp=drive_link
 
 ### Dataset credit
 
