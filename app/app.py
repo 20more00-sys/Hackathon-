@@ -136,10 +136,10 @@ def _main() -> None:
             with Image.open(gradcam_result["overlay_path"]) as overlay:
                 st.image(
                     overlay.convert("RGB"),
-                    caption="Grad-CAM overlay (qualitative only)",
+                    caption="Grad-CAM heatmap (qualitative only)",
                     use_container_width=True,
                 )
-    except (ValueError, KeyError, AttributeError, OSError, TypeError, tf.errors.OpError) as exc:
+    except Exception as exc:
         st.info(
             "Grad-CAM is unavailable for this model or image; the prediction above "
             f"was still produced. Details: {exc}"

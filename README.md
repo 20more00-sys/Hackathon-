@@ -19,6 +19,8 @@ The notebook trains a short fallback if project weights are not present in Colab
 
 The notebook evaluates the Kaggle-provided `Testing` folder; patient identifiers are unavailable, so patient-independent generalization is not established.
 
+Grad-CAM visualizations are available for example errors in the notebook and after image uploads in the Streamlit app; they are qualitative only.
+
 ## Model weights
 
 The trained `.keras` file is not included because it is too large for this repository. Judges can either:
