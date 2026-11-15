@@ -8,12 +8,33 @@ An educational four-class MRI image-classification prototype using ResNet50 tran
 
 **Fastest demo:** Open [`Hackathon_Colab.ipynb`](./Hackathon_Colab.ipynb) in Colab and select **Runtime → Run all**. It installs dependencies, downloads the dataset, compares a majority baseline with ResNet50, evaluates the provided test split, and saves `results/models/brain_tumor_model.keras`.
 
-To try the upload interface locally:
+### Run the web app (Streamlit)
 
+1. **Get the code** (clone it, or open the repo in GitHub Codespaces):
+   ```bash
+   git clone https://github.com/20more00-sys/Hackathon-.git
+   cd Hackathon-
+   ```
+
+2. **Download the model** from the link in the [Model weights](#model-weights) section and save it as: results/models/brain_tumor_model.keras
+(The file name and folder must match exactly.)
+
+3. **Install the dependencies:**
 ```bash
 python -m pip install -r requirements.txt
+```
+
+4. **Start the app** from the project root folder:
+```bash
 python -m streamlit run app/app.py
 ```
+
+5. **Open it in the browser.** Streamlit prints a local address (usually `http://localhost:8501`).
+- In **GitHub Codespaces**, click **Open in Browser** in the pop-up, or open the **Ports** tab and click the globe icon next to port 8501.
+
+6. **Try it:** click **Browse files** and upload an MRI image (for example `my_images/image.png` from this repo). The app shows the predicted class, the probability scores, and a Grad-CAM heatmap.
+
+> The first start can take a minute while TensorFlow loads. The app is an educational prototype, not a medical device.
 
 The notebook trains a short fallback if project weights are not present in Colab. After downloading/saving the model into `results/models/` in your local checkout, the app uses it by default. See **Model weights** below.
 
