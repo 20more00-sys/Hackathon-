@@ -21,6 +21,7 @@ An educational four-class MRI image-classification prototype using ResNet50 tran
 
 3. **Install the dependencies:**
 ```bash
+In the terminal write:
 python -m pip install -r requirements.txt
 ```
 
